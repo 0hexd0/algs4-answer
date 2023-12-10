@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Optional;
 
-public class QuickFindUF implements UF {
+public class QuickFindUF {
     private int[] id; // 分量id
     private int count; // 分量数量
 
