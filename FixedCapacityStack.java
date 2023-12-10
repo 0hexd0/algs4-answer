@@ -1,7 +1,5 @@
 /* *****************************************************************************
- *  Name:              Ada Lovelace
- *  Coursera User ID:  123456
- *  Last modified:     October 16, 1842
+ *  Name:              He XuDong
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.StdIn;

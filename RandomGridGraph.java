@@ -1,7 +1,5 @@
 /* *****************************************************************************
- *  Name:              Ada Lovelace
- *  Coursera User ID:  123456
- *  Last modified:     October 16, 1842
+ *  Name:              He XuDong
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.In;
@@ -53,7 +51,7 @@ public class RandomGridGraph {
         StdDraw.setPenRadius(.005);
 
         for (int i = 0; i < uf.count(); i++) {
-            
+
             for (int j = 0; j < N; j++) {
                 int idx = i * N + j;
                 int bottomIdx = (i + 1) * N + j;
