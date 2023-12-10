@@ -93,11 +93,11 @@ public class ErdosRenyiCompare {
         int trials = Integer.parseInt(args[0]);
 
         for (int n = 250; true; n += n) {
-            // double timeFind = timeTrial(n, trials, "find");
-            // double timeUnion = timeTrial(n, trials, "union");
-            double weightUnion = timeTrial(n, trials, "weight");
-            double compressUnion = timeTrial(n, trials, "compress");
-            StdOut.printf("%7d %7.1f %7.1f\n", n, weightUnion, compressUnion);
+            double time1 = timeTrial(n, trials, "find");
+            double time2 = timeTrial(n, trials, "union");
+            // double time1 = timeTrial(n, trials, "weight");
+            // double time2 = timeTrial(n, trials, "compress");
+            StdOut.printf("%7d %7.1f %7.1f\n", n, time1, time2);
         }
 
     }
