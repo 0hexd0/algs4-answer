@@ -19,21 +19,7 @@
  *
  ******************************************************************************/
 
-import edu.princeton.cs.algs4.BinaryInsertion;
-import edu.princeton.cs.algs4.Heap;
-import edu.princeton.cs.algs4.Insertion;
-import edu.princeton.cs.algs4.InsertionX;
-import edu.princeton.cs.algs4.Merge;
-import edu.princeton.cs.algs4.MergeBU;
-import edu.princeton.cs.algs4.MergeX;
-import edu.princeton.cs.algs4.Quick;
-import edu.princeton.cs.algs4.Quick3way;
-import edu.princeton.cs.algs4.QuickX;
-import edu.princeton.cs.algs4.Selection;
-import edu.princeton.cs.algs4.Shell;
-import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.Stopwatch;
+import edu.princeton.cs.algs4.*;
 
 import java.util.Arrays;
 
@@ -45,7 +31,7 @@ public class SortCompare {
         else if (alg.equals("InsertionX")) InsertionX.sort(a);
         else if (alg.equals("BinaryInsertion")) BinaryInsertion.sort(a);
         else if (alg.equals("Selection")) Selection.sort(a);
-            // else if (alg.equals("Bubble")) Bubble.sort(a);
+//        else if (alg.equals("Bubble")) Bubble.sort(a);
         else if (alg.equals("Shell")) Shell.sort(a);
         else if (alg.equals("Merge")) Merge.sort(a);
         else if (alg.equals("MergeX")) MergeX.sort(a);
@@ -55,6 +41,8 @@ public class SortCompare {
         else if (alg.equals("QuickX")) QuickX.sort(a);
         else if (alg.equals("Heap")) Heap.sort(a);
         else if (alg.equals("System")) Arrays.sort(a);
+        else if (alg.equals("BetterTopDownMerge")) BetterTopDownMerge.sort(a);
+        else if (alg.equals("TopDownMerge")) TopDownMerge.sort(a);
         else throw new IllegalArgumentException("Invalid algorithm: " + alg);
         return sw.elapsedTime();
     }
@@ -94,8 +82,7 @@ public class SortCompare {
         if (args.length == 5 && args[4].equals("sorted")) {
             time1 = timeSortedInput(alg1, n, trials);   // Total for alg1.
             time2 = timeSortedInput(alg2, n, trials);   // Total for alg2.
-        }
-        else {
+        } else {
             time1 = timeRandomInput(alg1, n, trials);   // Total for alg1.
             time2 = timeRandomInput(alg2, n, trials);   // Total for alg2.
         }
