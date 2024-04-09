@@ -14,15 +14,15 @@ interface TimesCalculator {
 
 // 绘制摊销图像
 public class AmortizedCostGraph {
-    private static double padding = 60;
-    private static double fontPaddingY = 22;
+    private final static double padding = 60;
+    private final static double fontPaddingY = 22;
     private int n = 0;
     private int total = 0;
-    private int maxWigth = 1000;
-    private int maxHeight = 500;
 
     public AmortizedCostGraph(String title, int xLen, int yLen, Optional<Integer> canvasWidth,
                               Optional<Integer> canvasHeight) {
+        int maxWigth = 1000;
+        int maxHeight = 500;
         StdDraw.setTitle("均摊成本的图像");
         int cWidth = canvasWidth.orElse(xLen);
         int cHeight = canvasHeight.orElse(yLen);
