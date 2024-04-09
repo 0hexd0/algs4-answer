@@ -43,7 +43,7 @@ public class SortUtils {
         StdOut.println("");
     }
 
-    public static void printIntArr(int[] arr) {
+    public static void printArr(Comparable[] arr) {
         for (int i = 0; i < arr.length; i++) {
             StdOut.printf("%d\t", arr[i]);
         }
