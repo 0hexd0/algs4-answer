@@ -50,6 +50,13 @@ public class SortUtils {
         StdOut.println();
     }
 
+    public static void printIntArr(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            StdOut.printf("%d\t", arr[i]);
+        }
+        StdOut.println();
+    }
+
     public static void exch(Object[] a, int i, int j) {
         Object swap = a[i];
         a[i] = a[j];
