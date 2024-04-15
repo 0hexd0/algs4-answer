@@ -44,6 +44,7 @@ public class SortCompare {
         else if (alg.equals("BetterTopDownMerge")) BetterTopDownMerge.sort(a);
         else if (alg.equals("QuickTopDownMerge")) QuickTopDownMerge.sort(a);
         else if (alg.equals("TopDownMerge")) TopDownMerge.sort(a);
+        else if (alg.equals("TopDownMergeNoPass")) TopDownMergeNoPass.sort(a);
         else throw new IllegalArgumentException("Invalid algorithm: " + alg);
         return sw.elapsedTime();
     }
