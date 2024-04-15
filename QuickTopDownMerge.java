@@ -36,9 +36,7 @@ public class QuickTopDownMerge {
         int mid = lo + (hi - lo) / 2;
         sort(a, lo, mid, aux);
         sort(a, mid + 1, hi, aux);
-        if (less(a[mid + 1], a[mid])) {
-            merge(a, lo, mid, hi, aux);
-        }
+        merge(a, lo, mid, hi, aux);
     }
 
     public static void main(String[] args) {

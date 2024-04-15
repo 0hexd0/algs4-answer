@@ -42,6 +42,7 @@ public class SortCompare {
         else if (alg.equals("Heap")) Heap.sort(a);
         else if (alg.equals("System")) Arrays.sort(a);
         else if (alg.equals("BetterTopDownMerge")) BetterTopDownMerge.sort(a);
+        else if (alg.equals("QuickTopDownMerge")) QuickTopDownMerge.sort(a);
         else if (alg.equals("TopDownMerge")) TopDownMerge.sort(a);
         else throw new IllegalArgumentException("Invalid algorithm: " + alg);
         return sw.elapsedTime();

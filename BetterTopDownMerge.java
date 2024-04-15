@@ -1,4 +1,5 @@
 /**
+ * 2.2.11 改进
  * 实现 2.2.2 节所述的对归并排序的三项改进：
  * 加快小数组的排序速度，检测数组是否已经有序以及通过在递归中交换参数来避免数组复制
  */
@@ -52,7 +53,7 @@ public class BetterTopDownMerge {
 
     // 每次sort完，a数组在lo和hi范围有序（要求a和aux在lo~hi范围内元素相同）
     private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
-        if (hi <= lo + 14) {
+        if (hi <= lo + 5) {
             // 直接对a排序 => a数组在lo和hi范围有序
             Selection.sort(a, lo, hi + 1);
             return;
