@@ -1,6 +1,10 @@
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
+/**
+ * 2.3.6 编写一段代码来计算 CN 的准确值
+ * 在 N=100、 1000 和 10 000 的情况下比较准确值和估计值2NlnN 的差距。
+ */
 public class QuickSortCompTimes {
     private static int times = 0;
 
