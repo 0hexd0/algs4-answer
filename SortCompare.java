@@ -37,6 +37,7 @@ public class SortCompare {
         else if (alg.equals("MergeX")) MergeX.sort(a);
         else if (alg.equals("MergeBU")) MergeBU.sort(a);
         else if (alg.equals("Quick")) Quick.sort(a);
+        else if (alg.equals("QuickSortWithSentinel")) QuickSortWithSentinel.sort(a);
         else if (alg.equals("Quick3way")) Quick3way.sort(a);
         else if (alg.equals("QuickX")) QuickX.sort(a);
         else if (alg.equals("Heap")) Heap.sort(a);
