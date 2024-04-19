@@ -44,7 +44,7 @@ public class NonRecursiveQuick {
             SubArrPos l = s.pop();
             int j = partition(a, l.lo, l.hi);
 
-            SubArrPos pos1 = new SubArrPos(l.lo, j); // < j
+            SubArrPos pos1 = new SubArrPos(l.lo, j - 1); // < j
             SubArrPos pos2 = new SubArrPos(j + 1, l.hi); // >= j
 
             if (pos1.len() < pos2.len()) {
