@@ -12,6 +12,15 @@ public class SortUtils {
         return true;
     }
 
+    public static Integer[] getIntArr(int n) {
+        // 将int数组转换为Integer对象数组
+        Integer[] integerArray = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            integerArray[i] = Integer.valueOf(i);
+        }
+        return integerArray;
+    }
+
     public static Integer[] getRandomIntArr(int n) {
         int[] intArray = new int[n];
         for (int i = 0; i < n; i++) {
