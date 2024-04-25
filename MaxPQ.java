@@ -64,13 +64,30 @@ public class MaxPQ<Key extends Comparable<Key>> {
 
     public static void main(String[] args) {
         MaxPQ pq = new MaxPQ(10);
-        pq.insert("C");
-        pq.insert("A");
+        pq.insert("P");
+        pq.insert("R");
+        pq.insert("I");
+        pq.insert("O");
+        StdOut.println(pq.delMax());
+        pq.insert("R");
+        StdOut.println(pq.delMax());
+        StdOut.println(pq.delMax());
+        pq.insert("I");
+        StdOut.println(pq.delMax());
+        pq.insert("T");
+        StdOut.println(pq.delMax());
+        pq.insert("Y");
+        StdOut.println(pq.delMax());
+        StdOut.println(pq.delMax());
+        StdOut.println(pq.delMax());
+        pq.insert("Q");
+        pq.insert("U");
         pq.insert("E");
         StdOut.println(pq.delMax());
-        pq.insert("F");
-        pq.insert("Z");
         StdOut.println(pq.delMax());
         StdOut.println(pq.delMax());
+        pq.insert("U");
+        StdOut.println(pq.delMax());
+        pq.insert("E");
     }
 }
