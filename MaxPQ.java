@@ -51,7 +51,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
     private void sink(int k) {
         while (k * 2 <= N) {
             int c = k * 2;
-            if (c < N && less(c, c + 1)) {
+            if (c != N && less(c, c + 1)) {
                 c++;
             }
             if (!less(k, c)) {
