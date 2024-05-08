@@ -8,6 +8,16 @@ public class MaxPQ<Key extends Comparable<Key>> {
         pq = (Key[]) new Comparable[maxN + 1];
     }
 
+    public MaxPQ(Comparable[] arr) {
+        pq = (Key[]) new Comparable[arr.length + 1];
+        for (int i = 0; i < arr.length; i++) {
+            pq[++N] = (Key) arr[i];
+        }
+        for (int k = N / 2; k >= 1; k--) {
+            sink(k);
+        }
+    }
+
     public boolean isEmpty() {
         return N == 0;
     }
@@ -68,26 +78,30 @@ public class MaxPQ<Key extends Comparable<Key>> {
         pq.insert("R");
         pq.insert("I");
         pq.insert("O");
-        StdOut.println(pq.delMax());
+
+        // String[] arr = { "P", "R", "I", "O" };
+        // MaxPQ pq = new MaxPQ(arr);
+        StdOut.print(pq.delMax());
         pq.insert("R");
-        StdOut.println(pq.delMax());
-        StdOut.println(pq.delMax());
+        StdOut.print(pq.delMax());
+        StdOut.print(pq.delMax());
         pq.insert("I");
-        StdOut.println(pq.delMax());
+        StdOut.print(pq.delMax());
         pq.insert("T");
-        StdOut.println(pq.delMax());
+        StdOut.print(pq.delMax());
         pq.insert("Y");
-        StdOut.println(pq.delMax());
-        StdOut.println(pq.delMax());
-        StdOut.println(pq.delMax());
+        StdOut.print(pq.delMax());
+        StdOut.print(pq.delMax());
+        StdOut.print(pq.delMax());
         pq.insert("Q");
         pq.insert("U");
         pq.insert("E");
-        StdOut.println(pq.delMax());
-        StdOut.println(pq.delMax());
-        StdOut.println(pq.delMax());
+        StdOut.print(pq.delMax());
+        StdOut.print(pq.delMax());
+        StdOut.print(pq.delMax());
         pq.insert("U");
-        StdOut.println(pq.delMax());
+        StdOut.print(pq.delMax());
         pq.insert("E");
+
     }
 }
