@@ -5,6 +5,7 @@ class MyNode<T> {
     MyNode<T> parent;
     MyNode<T> leftChild;
     MyNode<T> rightChild;
+    int count = 0;
 
     // Constructor to initialize the node
     MyNode(T key) {
@@ -12,12 +13,24 @@ class MyNode<T> {
         this.parent = null;
         this.leftChild = null;
         this.rightChild = null;
+        count = 1;
+    }
+
+    /** 以本节点为根节点的树的高度，从1开始 **/
+    int height() {
+        return (int) Math.ceil(Math.log(count + 1) / Math.log(2));
+    }
+
+    /** 以本节点为根节点的树，是否是满二叉树 **/
+    boolean isFull() {
+        return count == Math.pow(2, height()) - 1;
     }
 }
 
 // 基于链表的优先队列
 public class LinkedMaxPQ<Key extends Comparable<Key>> {
-    private MyNode<Key> root = null; // 哨兵
+    private MyNode<Key> root = null;
+    private MyNode<Key> tail = null; // 尾巴，方便删除
     private int N = 0;
 
     public LinkedMaxPQ() {
@@ -32,38 +45,91 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
         return N;
     }
 
+    MyNode<Key> findNextNode(MyNode<Key> root) {
+        if (root.leftChild == null || root.rightChild == null) {
+            return root;
+        }
+
+        if (root.isFull()) {
+            // 完全二叉树，选取最左下叶子节点
+            while (root != null && root.leftChild != null) {
+                root = root.leftChild;
+            }
+            return root;
+        }
+        else if (!root.leftChild.isFull()) {
+            // 左子树没满
+            return findNextNode(root.leftChild);
+        }
+        else {
+            return findNextNode(root.rightChild);
+        }
+    }
+
+    MyNode<Key> findTail(MyNode<Key> root) {
+        if (root.leftChild == null) {
+            return root;
+        }
+        if (root.rightChild == null) {
+            return root.leftChild;
+        }
+        if (root.isFull()) {
+            // 完全二叉树，选取最右下叶子节点
+            while (root != null) {
+                root = root.rightChild;
+            }
+            return root;
+        }
+        else if (root.leftChild.isFull()) {
+            return findTail(root.rightChild);
+        }
+        else {
+            return findTail(root.leftChild);
+        }
+    }
+
     // 插入新节点
     public void insert(Key v) {
+        // StdOut.println("key " + v);
         MyNode<Key> newNode = new MyNode<>(v);
+        tail = newNode;
 
         if (root == null) {
             root = newNode;
             return;
         }
 
-        MyNode<Key> current = root;
+        MyNode<Key> nextNode = findNextNode(root);
+        // StdOut.println("nextNode " + nextNode.key);
 
-        while (true) {
-            if (current.leftChild == null) {
-                current.leftChild = newNode;
-                return;
-            }
-            if (current.rightChild == null) {
-                current.rightChild = newNode;
-                return;
-            }
-            current = current.leftChild; // 左子节点优先
+        if (nextNode.leftChild == null) {
+            nextNode.leftChild = newNode;
         }
-
-
-        current.next = newNode;
+        else {
+            nextNode.rightChild = newNode;
+        }
+        newNode.parent = nextNode;
+        while (nextNode != null) {
+            nextNode.count += 1;
+            nextNode = nextNode.parent;
+        }
+        swin(newNode);
     }
 
     public Key delMax() {
-        Key max = pq[1];
-        exch(1, N--);
-        pq[N + 1] = null;
-        sink(1);
+        Key max = root.key;
+        root.key = tail.key;
+        MyNode<Key> p = tail.parent;
+
+        if (p.leftChild == tail) {
+            p.leftChild = null;
+        }
+        else {
+            p.rightChild = null;
+        }
+        tail = prevTail;
+        root.count -= 1;
+        sink(root);
         return max;
     }
 
@@ -71,32 +137,35 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
         return n1.key.compareTo(n2.key) < 0;
     }
 
-    private void exch(int i, int j) {
-        Key temp = pq[i];
-        pq[i] = pq[j];
-        pq[j] = temp;
+    private void exch(MyNode<Key> n1, MyNode<Key> n2) {
+        Key temp = n1.key;
+        n1.key = n2.key;
+        n2.key = temp;
     }
 
-    private void swin(int k) {
-        int p = k / 2;
-        while (p >= 1 && less(p, k)) {
-            exch(p, k);
-            k = p;
-            p = k / 2;
+    private void swin(MyNode<Key> node) {
+        MyNode<Key> p = node.parent;
+        while (p != null && less(p, node)) {
+            exch(p, node);
+            node = p;
+            p = node.parent;
         }
     }
 
-    private void sink() {
-        while (k * 2 <= N) {
-            int c = k * 2;
-            if (c != N && less(c, c + 1)) {
-                c++;
-            }
-            if (!less(k, c)) {
+    private void sink(MyNode<Key> node) {
+        while (node != null) {
+            if (node.leftChild == null) {
                 break;
             }
-            exch(k, c);
-            k = c;
+            MyNode<Key> biggerChild = node.leftChild;
+            if (node.rightChild != null && less(node.leftChild, node.rightChild)) {
+                biggerChild = node.rightChild;
+            }
+            if (!less(node, biggerChild)) {
+                break;
+            }
+            exch(node, biggerChild);
+            node = biggerChild;
         }
     }
 
@@ -107,8 +176,6 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
         pq.insert("I");
         pq.insert("O");
 
-        // String[] arr = { "P", "R", "I", "O" };
-        // MaxPQ pq = new MaxPQ(arr);
         StdOut.print(pq.delMax());
         pq.insert("R");
         StdOut.print(pq.delMax());
