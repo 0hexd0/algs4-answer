@@ -26,7 +26,19 @@ public class MaxPQ<Key extends Comparable<Key>> {
         return N;
     }
 
+    private void resize(int max) {
+        //将堆移动到一个大小为max的新数组
+        Key[] temp = (Key[]) new Comparable[max];
+        for (int i = 0; i <= N; i++) {
+            temp[i] = pq[i];
+        }
+        pq = temp;
+    }
+
     public void insert(Key v) {
+        if (N == pq.length - 1) {
+            resize(pq.length * 2);
+        }
         pq[++N] = v;
         swin(N);
     }
@@ -36,6 +48,9 @@ public class MaxPQ<Key extends Comparable<Key>> {
         exch(1, N--);
         pq[N + 1] = null;
         sink(1);
+        if (N > 0 && N == pq.length / 4) {
+            resize(pq.length / 2);
+        }
         return max;
     }
 
