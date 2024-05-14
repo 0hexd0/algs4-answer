@@ -3,6 +3,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class MaxPQ<Key extends Comparable<Key>> {
     private Key[] pq;
     private int N = 0;
+    private Key minKey = null;
 
     public MaxPQ(int maxN) {
         pq = (Key[]) new Comparable[maxN + 1];
@@ -40,7 +41,31 @@ public class MaxPQ<Key extends Comparable<Key>> {
             resize(pq.length * 2);
         }
         pq[++N] = v;
+
+        // 每次插入后记录最小值
+        if (minKey == null) {
+            minKey = v;
+        } else if (v.compareTo(minKey) < 0) {
+            minKey = v;
+        }
         swin(N);
+    }
+
+    // 重设最小值
+    public void resetMin() {
+        if (N == 1) {
+            minKey = null;
+            return;
+        }
+        int firstLeaf = N / 2 + 1; // 第一个叶子
+        // 遍历所有叶子，找出最小值
+        Key minKey = pq[firstLeaf];
+        for (int i = firstLeaf + 1; i <= N; i++) {
+            if (pq[i].compareTo(minKey) < 0) {
+                minKey = pq[i];
+            }
+        }
+        this.minKey = minKey;
     }
 
     public Key delMax() {
@@ -51,7 +76,14 @@ public class MaxPQ<Key extends Comparable<Key>> {
         if (N > 0 && N == pq.length / 4) {
             resize(pq.length / 2);
         }
+        resetMin(); // 删除后重设最小值
         return max;
+    }
+
+
+    public Key min() {
+//        StdOut.printf("\n min is %s\n", minKey);
+        return minKey;
     }
 
     private boolean less(int i, int j) {
@@ -97,11 +129,12 @@ public class MaxPQ<Key extends Comparable<Key>> {
         pq.insert("R");
         pq.insert("I");
         pq.insert("O");
-
+        pq.min();
         // String[] arr = { "P", "R", "I", "O" };
         // MaxPQ pq = new MaxPQ(arr);
         StdOut.print(pq.delMax());
         pq.insert("R");
+        pq.min();
         StdOut.print(pq.delMax());
         StdOut.print(pq.delMax());
         pq.insert("I");
@@ -114,13 +147,15 @@ public class MaxPQ<Key extends Comparable<Key>> {
         StdOut.print(pq.delMax());
         pq.insert("Q");
         pq.insert("U");
+        pq.min();
         pq.insert("E");
+        pq.min();
         StdOut.print(pq.delMax());
         StdOut.print(pq.delMax());
         StdOut.print(pq.delMax());
         pq.insert("U");
         StdOut.print(pq.delMax());
         pq.insert("E");
-
+        pq.min();
     }
 }
