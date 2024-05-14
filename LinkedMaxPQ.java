@@ -68,9 +68,8 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
         }
     }
 
-    // 插入新节点
+    // 插入新节点，复杂度lgN
     public void insert(Key v) {
-        // StdOut.println("key " + v);
         MyNode<Key> newNode = new MyNode<>(v);
         tail = newNode;
 
@@ -79,24 +78,24 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
             return;
         }
 
-        MyNode<Key> nextNode = findNextNode(root);
-        // StdOut.println("nextNode " + nextNode.key);
+        MyNode<Key> nextNode = findNextNode(root); // 查找插入点，复杂度lgN
 
         if (nextNode.leftChild == null) {
             nextNode.leftChild = newNode;
         } else {
             nextNode.rightChild = newNode;
         }
-        newNode.parent = nextNode;
+        newNode.parent = nextNode; // 在插入点插入新节点
         while (nextNode != null) {
-            nextNode.count += 1;
-            nextNode = nextNode.parent;
+            nextNode.count += 1; //
+            nextNode = nextNode.parent; // 更新插入点及其父节点计数器，复杂度lgN
         }
-        swin(newNode);
+        swin(newNode); // 新节点上升到合适位置，复杂度lgN
     }
 
-
+    // 删除最大节点，复杂度lgN
     public Key delMax() {
+        // 记录最大值，交换最大节点和尾节点
         Key max = root.key;
         root.key = tail.key;
         if (tail == root) {
@@ -105,17 +104,19 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
             root = null;
             return max;
         }
+        // 删除尾节点，父节点不链接尾节点
         MyNode<Key> tp = tail.parent;
         if (tp.leftChild == tail) {
             tp.leftChild = null;
         } else {
             tp.rightChild = null;
         }
+        // 尾节点的所有祖先计数-1，复杂度lgN
         while (tp != null) {
             tp.count -= 1;
             tp = tp.parent;
         }
-
+        // 查找新的尾节点 复杂度lgN
         MyNode<Key> nextNode = findNextNode(root);
         if (nextNode.leftChild != null) {
             nextNode = nextNode.leftChild;
@@ -124,7 +125,7 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
         }
         tail = nextNode;
 
-        sink(root);
+        sink(root); // 首节点沉到正确位置
         return max;
     }
 
