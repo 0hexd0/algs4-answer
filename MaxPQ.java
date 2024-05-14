@@ -65,12 +65,14 @@ public class MaxPQ<Key extends Comparable<Key>> {
     }
 
     private void swin(int k) {
+        Key cur = pq[k];
         int p = k / 2;
-        while (p >= 1 && less(p, k)) {
-            exch(p, k);
+        while (p >= 1 && pq[p].compareTo(cur) < 0) {
+            pq[k] = pq[p];
             k = p;
             p = k / 2;
         }
+        pq[k] = cur;
     }
 
     private void sink(int k) {
@@ -80,7 +82,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
             if (c != N && less(c, c + 1)) {
                 c++;
             }
-            if (!less(k, c)) {
+            if (cur.compareTo(pq[c]) >= 0) {
                 break;
             }
             pq[k] = pq[c];
