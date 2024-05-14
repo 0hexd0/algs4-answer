@@ -74,6 +74,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
     }
 
     private void sink(int k) {
+        Key cur = pq[k];
         while (k * 2 <= N) {
             int c = k * 2;
             if (c != N && less(c, c + 1)) {
@@ -82,9 +83,10 @@ public class MaxPQ<Key extends Comparable<Key>> {
             if (!less(k, c)) {
                 break;
             }
-            exch(k, c);
+            pq[k] = pq[c];
             k = c;
         }
+        pq[k] = cur;
     }
 
     public static void main(String[] args) {
