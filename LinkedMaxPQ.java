@@ -16,12 +16,16 @@ class MyNode<T> {
         count = 1;
     }
 
-    /** 以本节点为根节点的树的高度，从1开始 **/
+    /**
+     * 以本节点为根节点的树的高度，从1开始
+     **/
     int height() {
         return (int) Math.ceil(Math.log(count + 1) / Math.log(2));
     }
 
-    /** 以本节点为根节点的树，是否是满二叉树 **/
+    /**
+     * 以本节点为根节点的树，是否是满二叉树
+     **/
     boolean isFull() {
         return count == Math.pow(2, height()) - 1;
     }
@@ -56,35 +60,11 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
                 root = root.leftChild;
             }
             return root;
-        }
-        else if (!root.leftChild.isFull()) {
+        } else if (!root.leftChild.isFull()) {
             // 左子树没满
             return findNextNode(root.leftChild);
-        }
-        else {
+        } else {
             return findNextNode(root.rightChild);
-        }
-    }
-
-    MyNode<Key> findTail(MyNode<Key> root) {
-        if (root.leftChild == null) {
-            return root;
-        }
-        if (root.rightChild == null) {
-            return root.leftChild;
-        }
-        if (root.isFull()) {
-            // 完全二叉树，选取最右下叶子节点
-            while (root != null) {
-                root = root.rightChild;
-            }
-            return root;
-        }
-        else if (root.leftChild.isFull()) {
-            return findTail(root.rightChild);
-        }
-        else {
-            return findTail(root.leftChild);
         }
     }
 
@@ -104,8 +84,7 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
 
         if (nextNode.leftChild == null) {
             nextNode.leftChild = newNode;
-        }
-        else {
+        } else {
             nextNode.rightChild = newNode;
         }
         newNode.parent = nextNode;
@@ -116,19 +95,35 @@ public class LinkedMaxPQ<Key extends Comparable<Key>> {
         swin(newNode);
     }
 
+
     public Key delMax() {
         Key max = root.key;
         root.key = tail.key;
-        MyNode<Key> p = tail.parent;
+        if (tail == root) {
+            // 删除根节点
+            tail = null;
+            root = null;
+            return max;
+        }
+        MyNode<Key> tp = tail.parent;
+        if (tp.leftChild == tail) {
+            tp.leftChild = null;
+        } else {
+            tp.rightChild = null;
+        }
+        while (tp != null) {
+            tp.count -= 1;
+            tp = tp.parent;
+        }
 
-        if (p.leftChild == tail) {
-            p.leftChild = null;
+        MyNode<Key> nextNode = findNextNode(root);
+        if (nextNode.leftChild != null) {
+            nextNode = nextNode.leftChild;
+        } else if (nextNode.rightChild != null) {
+            nextNode = nextNode.rightChild;
         }
-        else {
-            p.rightChild = null;
-        }
-        tail = prevTail;
-        root.count -= 1;
+        tail = nextNode;
+
         sink(root);
         return max;
     }
