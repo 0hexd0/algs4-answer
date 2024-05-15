@@ -44,19 +44,19 @@ public class MinPQ<Key extends Comparable<Key>> {
     }
 
     public Key min() {
-        Key max = pq[1];
-        return max;
+        Key min = pq[1];
+        return min;
     }
 
     public Key delMin() {
-        Key max = pq[1];
+        Key min = pq[1];
         exch(1, N--);
         pq[N + 1] = null;
         sink(1);
         if (N > 0 && N == pq.length / 4) {
             resize(pq.length / 2);
         }
-        return max;
+        return min;
     }
 
     private boolean less(int i, int j) {
@@ -69,13 +69,22 @@ public class MinPQ<Key extends Comparable<Key>> {
         pq[j] = temp;
     }
 
+    // swim from k to 1
     private void swin(int k) {
         Key cur = pq[k];
-        int p = k / 2;
-        while (p >= 1 && pq[p].compareTo(cur) > 0) {
+        int mp = findMid(1, k); // min parent
+        StdOut.println(k + " find mid is " + mp);
+        if (pq[mp].compareTo(cur) <= 0) {
+            mp = findMid(mp, k);
+        } else {
+            mp = findMid(1, mp);
+        }
+
+        int p = k;
+        while (p > mp) {
+            p = k / 2;
             pq[k] = pq[p];
             k = p;
-            p = k / 2;
         }
         pq[k] = cur;
     }
@@ -96,32 +105,55 @@ public class MinPQ<Key extends Comparable<Key>> {
         pq[k] = cur;
     }
 
+    /**
+     * 以本节点为根节点的树的高度，从1开始
+     **/
+    int height(int idx) {
+        return (int) Math.ceil(Math.log(idx) / Math.log(2)) + 1;
+    }
+
+    public int findMid(int start, int end) {
+        if (start >= end) {
+            return end;
+        }
+        int hs = height(start);
+        int he = height(end);
+
+        int hc = hs + (he - hs) / 2;
+        int divTimes = he - hc;
+        while (divTimes > 0) {
+            end /= 2;
+            divTimes--;
+        }
+        return end;
+    }
+
     public static void main(String[] args) {
         MinPQ pq = new MinPQ(10);
         pq.insert("P");
         pq.insert("R");
         pq.insert("I");
-        pq.insert("O");
+//        pq.insert("O");
         StdOut.print(pq.delMin());
-        pq.insert("R");
-        StdOut.print(pq.delMin());
-        StdOut.print(pq.delMin());
-        pq.insert("I");
-        StdOut.print(pq.delMin());
-        pq.insert("T");
-        StdOut.print(pq.delMin());
-        pq.insert("Y");
-        StdOut.print(pq.delMin());
-        StdOut.print(pq.delMin());
-        StdOut.print(pq.delMin());
-        pq.insert("Q");
-        pq.insert("U");
-        pq.insert("E");
-        StdOut.print(pq.delMin());
-        StdOut.print(pq.delMin());
-        StdOut.print(pq.delMin());
-        pq.insert("U");
-        StdOut.print(pq.delMin());
-        pq.insert("E");
+//        pq.insert("R");
+//        StdOut.print(pq.delMin());
+//        StdOut.print(pq.delMin());
+//        pq.insert("I");
+//        StdOut.print(pq.delMin());
+//        pq.insert("T");
+//        StdOut.print(pq.delMin());
+//        pq.insert("Y");
+//        StdOut.print(pq.delMin());
+//        StdOut.print(pq.delMin());
+//        StdOut.print(pq.delMin());
+//        pq.insert("Q");
+//        pq.insert("U");
+//        pq.insert("E");
+//        StdOut.print(pq.delMin());
+//        StdOut.print(pq.delMin());
+//        StdOut.print(pq.delMin());
+//        pq.insert("U");
+//        StdOut.print(pq.delMin());
+//        pq.insert("E");
     }
 }
