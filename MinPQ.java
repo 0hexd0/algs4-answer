@@ -27,7 +27,7 @@ public class MinPQ<Key extends Comparable<Key>> {
     }
 
     private void resize(int max) {
-        //将堆移动到一个大小为max的新数组
+        // 将堆移动到一个大小为max的新数组
         Key[] temp = (Key[]) new Comparable[max];
         for (int i = 0; i <= N; i++) {
             temp[i] = pq[i];
@@ -41,6 +41,7 @@ public class MinPQ<Key extends Comparable<Key>> {
         }
         pq[++N] = v;
         swin(N);
+        // print_pq();
     }
 
     public Key min() {
@@ -72,21 +73,26 @@ public class MinPQ<Key extends Comparable<Key>> {
     // swim from k to 1
     private void swin(int k) {
         Key cur = pq[k];
-        int mp = findMid(1, k); // min parent
-        StdOut.println(k + " find mid is " + mp);
-        if (pq[mp].compareTo(cur) <= 0) {
-            mp = findMid(mp, k);
-        } else {
-            mp = findMid(1, mp);
-        }
-
+        int mp = findMinParent(k); // mp是pq[i] >= qp[k] 中最大的i，其中i是k的所有父节点
+        // StdOut.println("\nfindMinParent" + mp);
         int p = k;
         while (p > mp) {
             p = k / 2;
             pq[k] = pq[p];
             k = p;
         }
+        if (k != mp) {
+            StdOut.println("k != mp");
+        }
         pq[k] = cur;
+    }
+
+    void print_pq() {
+        StdOut.printf("\npq is ");
+        for (int i = 1; i <= N; i++) {
+            StdOut.printf(" %s", pq[i]);
+        }
+        StdOut.printf("\n");
     }
 
     private void sink(int k) {
@@ -109,7 +115,7 @@ public class MinPQ<Key extends Comparable<Key>> {
      * 以本节点为根节点的树的高度，从1开始
      **/
     int height(int idx) {
-        return (int) Math.ceil(Math.log(idx) / Math.log(2)) + 1;
+        return (int) Math.floor(Math.log(idx) / Math.log(2)) + 1;
     }
 
     public int findMid(int start, int end) {
@@ -128,32 +134,56 @@ public class MinPQ<Key extends Comparable<Key>> {
         return end;
     }
 
+    public int findMinParent(int k) {
+        Key cur = pq[k];
+        int mid = findMid(1, k); // find mid
+        int cmp = 0;
+        while (mid > 2 && (cmp = pq[mid].compareTo(cur)) != 0) {
+            StdOut.printf("mid is %d\n", mid);
+            if (cmp < 0) {
+                // 中点<=cur，中点的父节点更小不用比较
+                mid = findMid(mid * 2, k);
+            }
+            else {
+                // mid>cur，1～mid中递归找
+                mid = findMid(1, mid);
+            }
+        }
+
+        if (mid == 2) {
+            return pq[1].compareTo(cur) < 0 ? 2 : 1;
+        }
+
+        return mid;
+    }
+
     public static void main(String[] args) {
-        MinPQ pq = new MinPQ(10);
+        MinPQ pq = new MinPQ<>(10);
+
         pq.insert("P");
         pq.insert("R");
         pq.insert("I");
-//        pq.insert("O");
+        pq.insert("O");
         StdOut.print(pq.delMin());
-//        pq.insert("R");
-//        StdOut.print(pq.delMin());
-//        StdOut.print(pq.delMin());
-//        pq.insert("I");
-//        StdOut.print(pq.delMin());
-//        pq.insert("T");
-//        StdOut.print(pq.delMin());
-//        pq.insert("Y");
-//        StdOut.print(pq.delMin());
-//        StdOut.print(pq.delMin());
-//        StdOut.print(pq.delMin());
-//        pq.insert("Q");
-//        pq.insert("U");
-//        pq.insert("E");
-//        StdOut.print(pq.delMin());
-//        StdOut.print(pq.delMin());
-//        StdOut.print(pq.delMin());
-//        pq.insert("U");
-//        StdOut.print(pq.delMin());
-//        pq.insert("E");
+        pq.insert("R");
+        StdOut.print(pq.delMin());
+        StdOut.print(pq.delMin());
+        pq.insert("I");
+        StdOut.print(pq.delMin());
+        pq.insert("T");
+        StdOut.print(pq.delMin());
+        pq.insert("Y");
+        StdOut.print(pq.delMin());
+        StdOut.print(pq.delMin());
+        StdOut.print(pq.delMin());
+        pq.insert("Q");
+        pq.insert("U");
+        pq.insert("E");
+        StdOut.print(pq.delMin());
+        StdOut.print(pq.delMin());
+        StdOut.print(pq.delMin());
+        pq.insert("U");
+        StdOut.print(pq.delMin());
+        pq.insert("E");
     }
 }
