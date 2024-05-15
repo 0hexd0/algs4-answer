@@ -81,9 +81,6 @@ public class MinPQ<Key extends Comparable<Key>> {
             pq[k] = pq[p];
             k = p;
         }
-        if (k != mp) {
-            StdOut.println("k != mp");
-        }
         pq[k] = cur;
     }
 
@@ -136,26 +133,23 @@ public class MinPQ<Key extends Comparable<Key>> {
 
     public int findMinParent(int k) {
         Key cur = pq[k];
-        int mid = findMid(1, k); // find mid
-        int cmp = 0;
-        while (mid > 2 && (cmp = pq[mid].compareTo(cur)) != 0) {
-            StdOut.printf("mid is %d\n", mid);
+
+        int start = 1;
+        int end = k;
+        while (start < end - 1) {
+            int mid = findMid(start, end);
+
+            int cmp = pq[mid].compareTo(cur);
             if (cmp < 0) {
-                // 中点<=cur，中点的父节点更小不用比较
-                mid = findMid(mid * 2, k);
+                // mid<cur，中点的父节点不用比较
+                start = mid * 2;
             }
             else {
-                // mid>cur，1～mid中递归找
-                mid = findMid(1, mid);
+                end = mid;
             }
         }
 
-        if (mid == 2) {
-            // 中点是2，判断1是否最小
-            return pq[1].compareTo(cur) < 0 ? 2 : 1;
-        }
-
-        return mid;
+        return end;
     }
 
     public static void main(String[] args) {
