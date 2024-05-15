@@ -68,6 +68,11 @@ public class MaxPQ<Key extends Comparable<Key>> {
         this.minKey = minKey;
     }
 
+    public Key max() {
+        Key max = pq[1];
+        return max;
+    }
+
     public Key delMax() {
         Key max = pq[1];
         exch(1, N--);
