@@ -145,18 +145,22 @@ public class MinPQ<Key extends Comparable<Key>> {
                 start = mid * 2;
             }
             else {
+                // mid>=cur
                 end = mid;
             }
         }
 
+        // end - start <= 1
+        if (end - start == 1) {
+            return cur.compareTo(pq[start]) < 0 ? start : end;
+        }
         return end;
     }
 
     public static void main(String[] args) {
         MinPQ pq = new MinPQ<>(10);
-
-        pq.insert("P");
         pq.insert("R");
+        pq.insert("P");
         pq.insert("I");
         pq.insert("O");
         StdOut.print(pq.delMin());
