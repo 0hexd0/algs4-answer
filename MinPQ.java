@@ -151,6 +151,7 @@ public class MinPQ<Key extends Comparable<Key>> {
         }
 
         if (mid == 2) {
+            // 中点是2，判断1是否最小
             return pq[1].compareTo(cur) < 0 ? 2 : 1;
         }
 
