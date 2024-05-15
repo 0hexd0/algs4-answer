@@ -136,7 +136,7 @@ public class MinPQ<Key extends Comparable<Key>> {
 
         int start = 1;
         int end = k;
-        while (start < end - 1) {
+        while (end >= 2 * start) {
             int mid = findMid(start, end);
 
             int cmp = pq[mid].compareTo(cur);
@@ -150,17 +150,14 @@ public class MinPQ<Key extends Comparable<Key>> {
             }
         }
 
-        // end - start <= 1
-        if (end - start == 1) {
-            return cur.compareTo(pq[start]) < 0 ? start : end;
-        }
         return end;
     }
 
     public static void main(String[] args) {
         MinPQ pq = new MinPQ<>(10);
-        pq.insert("R");
+
         pq.insert("P");
+        pq.insert("R");
         pq.insert("I");
         pq.insert("O");
         StdOut.print(pq.delMin());
