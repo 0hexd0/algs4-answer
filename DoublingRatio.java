@@ -1,4 +1,4 @@
-import chapter2.Exe_2_3_27;
+import chapter2.Exe_2_3_29;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.Stopwatch;
@@ -42,7 +42,8 @@ public class DoublingRatio {
             // Exe_2_3_22.sort(a);
             // Exe_2_3_23.sort(a);
             // Exe_2_3_25.sort(a, 7);
-            Exe_2_3_27.sort(a, 7);
+            // Exe_2_3_25.sort(a, 7);
+            Exe_2_3_29.sort(a, 7);
         }
         return timer.elapsedTime();
     }
