@@ -1,3 +1,4 @@
+import chapter2.Exe_2_3_23;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.Stopwatch;
@@ -29,13 +30,17 @@ public class DoublingRatio {
      * with <em>n</em> random 6-digit integers
      */
     public static double timeTrial(int n, int times) {
-        int[] a = new int[n];
+        Integer[] a = new Integer[n];
         for (int i = 0; i < n; i++) {
             a[i] = StdRandom.uniformInt(-MAXIMUM_INTEGER, MAXIMUM_INTEGER);
         }
         Stopwatch timer = new Stopwatch();
         for (int i = 0; i < times; i++) {
-            int ignore = ThreeSumFast.count(a);
+            // int ignore = ThreeSumFast.count(a);
+            // Exe_2_3_18.sort(a);ß
+            // Exe_2_3_6.sort(a);
+            // Exe_2_3_22.sort(a);
+            Exe_2_3_23.sort(a);
         }
         return timer.elapsedTime();
     }
@@ -50,6 +55,7 @@ public class DoublingRatio {
     public static void main(String[] args) {
         int times = Integer.parseInt(args[0]);
         double prev = timeTrial(125, times);
+        StdOut.printf("N time time/prev\n");
         for (int n = 250; true; n += n) {
             double time = timeTrial(n, times);
             StdOut.printf("%7d %7.1f %5.1f\n", n, time, time / prev);
