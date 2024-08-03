@@ -11,9 +11,9 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.Stopwatch;
 
-public class Exe_2_3_25 {
+public class Exe_2_3_27 {
     private static final int MAXIMUM_INTEGER = 1000000;
-    public static int times = 100;
+    public static int times = 1;
 
     public static class SortInfo {
         public SortInfo(int lo, int hi) {
@@ -65,7 +65,7 @@ public class Exe_2_3_25 {
         Stack<SortInfo> s = new Stack<>();
         s.push(new SortInfo(0, a.length - 1));
         sort(a, s, m);
-        // assert isSorted(a) : "数组有序";
+        insertSort(a, 0, a.length - 1); // 因为忽略了小数组，补充一次完整的插入排序
     }
 
     public static void insertSort(Comparable[] a, int lo, int hi) {
@@ -80,7 +80,7 @@ public class Exe_2_3_25 {
         while (!s.isEmpty()) {
             SortInfo info = s.pop();
             if (info.hi - info.lo <= m) {
-                insertSort(a, info.lo, info.hi);
+                return;
             }
             else {
                 int j = partition(a, info.lo, info.hi);
@@ -119,14 +119,5 @@ public class Exe_2_3_25 {
         Comparable temp = a[i];
         a[i] = a[j];
         a[j] = temp;
-    }
-
-    public static boolean isSorted(Comparable a[]) {
-        for (int i = 1; i < a.length; i++) {
-            if (less(a[i], a[i - 1])) {
-                return false;
-            }
-        }
-        return true;
     }
 }
