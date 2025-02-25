@@ -6,6 +6,8 @@ package chapter3.section1;
 
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Objects;
+
 public class Test5 {
     static class Time implements Comparable<Time> {
         int hour;
@@ -42,6 +44,10 @@ public class Test5 {
             }
             Time time = (Time) obj;
             return this.hour == time.hour && this.min == time.min && this.sec == time.sec;
+        }
+
+        public int hashCode() {
+            return Objects.hash(hour, min, sec);
         }
 
         public String toString() {
