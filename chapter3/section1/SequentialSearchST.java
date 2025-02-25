@@ -9,9 +9,9 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.ArrayList;
 
 /**
- * 使用有序链表来实现我们的有序符号表API
+ * 使用无序链表实现的有序符号表API
  */
-public class OrderedSequentialSearchST<Key extends Comparable<Key>, Value> {
+public class SequentialSearchST<Key extends Comparable<Key>, Value> {
     private Node first;
 
     class Node {
@@ -27,8 +27,8 @@ public class OrderedSequentialSearchST<Key extends Comparable<Key>, Value> {
     }
 
     public static void main(String[] args) {
-        OrderedSequentialSearchST<String, Integer> st;
-        st = new OrderedSequentialSearchST<String, Integer>();
+        SequentialSearchST<String, Integer> st;
+        st = new SequentialSearchST<String, Integer>();
         String[] strs = { "S", "E", "A", "R", "C", "H", "E", "X", "A", "M", "P", "L", "E" };
         for (int i = 0; i < strs.length; i++) {
             String key = strs[i];

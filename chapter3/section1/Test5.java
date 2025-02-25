@@ -57,8 +57,8 @@ public class Test5 {
     }
 
     public static void main(String[] args) {
-        OrderedSequentialSearchST<Time, String> st;
-        st = new OrderedSequentialSearchST<Time, String>();
+        SequentialSearchST<Time, String> st;
+        st = new SequentialSearchST<Time, String>();
         st.put(new Time(9, 0, 0), "Chicago");
         st.put(new Time(9, 0, 3), "Phoenix");
         st.put(new Time(9, 0, 13), "Houston");
