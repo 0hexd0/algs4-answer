@@ -4,13 +4,17 @@
 
 package chapter3.section1;
 
+import edu.princeton.cs.algs4.Merge;
 import edu.princeton.cs.algs4.Queue;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class Test12<Key extends Comparable<Key>, Value> {
     private Item[] items;
     private int N;
 
-    class Item {
+    class Item implements Comparable<Item> {
         Key key;
         Value val;
 
@@ -18,10 +22,20 @@ public class Test12<Key extends Comparable<Key>, Value> {
             this.key = key;
             this.val = val;
         }
+
+        public int compareTo(Item o) {
+            return this.key.compareTo(o.key);
+        }
     }
 
     public Test12(int capacity) {
-        items = (Item[]) new Object[capacity];
+        items = (Item[]) Array.newInstance(Item.class, capacity);
+    }
+
+    public Test12(Item[] items) {
+        Item[] temps = Arrays.copyOf(items, items.length);
+        Merge.sort(temps);
+        this.items = temps;
     }
 
     public int size() {
