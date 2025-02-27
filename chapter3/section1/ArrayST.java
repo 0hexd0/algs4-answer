@@ -91,7 +91,7 @@ public class ArrayST<Key, Value> {
                 _values[N - 1] = null;
                 N--;
                 if (N == _keys.length / 4) {
-                    resize(N / 2); // 缩容
+                    resize(_keys.length / 2); // 缩容
                 }
                 return;
             }
