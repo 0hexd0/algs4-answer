@@ -102,6 +102,20 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    public void deleteMin() {
+        if (isEmpty()) {
+            return;
+        }
+        delete(min());
+    }
+
+    public void deleteMax() {
+        if (isEmpty()) {
+            return;
+        }
+        delete(max());
+    }
+
     public boolean isEmpty() {
         return N == 0;
     }
@@ -122,7 +136,12 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     }
 
     public Key ceiling(Key key) {
-        return select(rank(key));
+        int i = rank(key);
+        // key比最大还大
+        if (i == N) {
+            return null;
+        }
+        return select(i);
     }
 
     public Key floor(Key key) {
@@ -130,7 +149,11 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
             return key;
         }
         int i = rank(key);
-        return select(Math.min(i - 1, 0));
+        // key比最小还小，无下界
+        if (i == 0) {
+            return null;
+        }
+        return select(i - 1);
     }
 
     public boolean contains(Key key) {
