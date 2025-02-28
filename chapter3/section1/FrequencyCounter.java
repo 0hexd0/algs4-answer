@@ -5,14 +5,13 @@
 package chapter3.section1;
 
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.ST;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 public class FrequencyCounter {
     public static void main(String[] args) {
         int minlen = Integer.parseInt(args[0]);
-        ST<String, Integer> st = new ST<String, Integer>();
+        SequentialSearchST<String, Integer> st = new SequentialSearchST<String, Integer>();
         String lastPutWord = "";
         int wordCounter = 0;
         while (!StdIn.isEmpty()) {
