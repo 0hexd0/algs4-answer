@@ -46,8 +46,6 @@ public class TestBinarySearch {
     }
 
     public static void execTest(BinarySearchST<String, Integer> st, String fn) {
-        String key = "";
-        int index = 0;
         switch (fn) {
             case "keys": {
                 StdOut.println("keys():");
@@ -66,28 +64,28 @@ public class TestBinarySearch {
             }
             case "floor": {
                 StdOut.print("请输入floor入参：");
-                key = StdIn.readString();
+                String key = StdIn.readString();
                 StdIn.readLine(); // 清空无效输入
                 StdOut.println("floor(" + key + "): " + st.floor(key));
                 break;
             }
             case "ceiling": {
                 StdOut.print("请输入ceiling入参：");
-                key = StdIn.readString();
+                String key = StdIn.readString();
                 StdIn.readLine(); // 清空无效输入
                 StdOut.println("ceiling(" + key + "): " + st.ceiling(key));
                 break;
             }
             case "select": {
                 StdOut.print("请输入select入参：");
-                index = StdIn.readInt();
+                int index = StdIn.readInt();
                 StdIn.readLine(); // 清空无效输入
                 StdOut.println("select(" + index + "): " + st.select(index));
                 break;
             }
             case "rank": {
                 StdOut.print("请输入rank入参：");
-                key = StdIn.readString();
+                String key = StdIn.readString();
                 StdIn.readLine(); // 清空无效输入
                 StdOut.println("rank(" + key + "): " + st.rank(key));
                 break;
