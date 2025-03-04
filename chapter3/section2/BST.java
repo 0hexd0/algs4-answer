@@ -14,19 +14,30 @@ public class BST<Key extends Comparable<Key>, Value> {
         private Key key;
         private Value val;
         private Node left, right;
-        private int N;
-        private int H;
+        private int N; // 树节点数量
+        private int H; // 树高度
+        private int L; // 树内部路径长度
 
-        public Node(Key key, Value val, int N, int H) {
+        public Node(Key key, Value val, int N, int H, int L) {
             this.key = key;
             this.val = val;
             this.N = N;
             this.H = H;
+            this.L = L;
         }
     }
 
     public int size() {
         return size(root);
+    }
+
+    public int size(Node x) {
+        if (x == null) {
+            return 0;
+        }
+        else {
+            return x.N;
+        }
     }
 
     public int height() {
@@ -42,13 +53,15 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    public int size(Node x) {
+    public int length() {
+        return length(root);
+    }
+
+    public int length(Node x) {
         if (x == null) {
             return 0;
         }
-        else {
-            return x.N;
-        }
+        return x.L;
     }
 
     public Value get(Key key) {
@@ -75,7 +88,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     public Node put(Node x, Key key, Value val) {
         if (x == null) {
-            return new Node(key, val, 1, 0);
+            return new Node(key, val, 1, 0, 0);
         }
         int cmp = key.compareTo(x.key);
         if (cmp < 0) {
@@ -89,6 +102,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
         x.N = size(x.left) + size(x.right) + 1;
         x.H = Math.max(height(x.left), height(x.right)) + 1;
+        x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
         return x;
     }
 
@@ -226,6 +240,7 @@ public class BST<Key extends Comparable<Key>, Value> {
             x.left = deleteMin(x.left);
             x.N = size(x.left) + size(x.right) + 1;
             x.H = Math.max(height(x.left), height(x.right)) + 1;
+            x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
             return x;
         }
     }
@@ -259,6 +274,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
         x.N = size(x.left) + size(x.right) + 1;
         x.H = Math.max(height(x.left), height(x.right)) + 1;
+        x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
         return x;
     }
 
@@ -298,11 +314,28 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    // 节点高度
     public int getNodeHeight(Node x) {
         if (x == null) {
             return 0;
         }
         return Math.max(getNodeHeight(x.left), getNodeHeight(x.right)) + 1;
+    }
+
+    // 内部路径长度
+    public int getNodeLength(Node x) {
+        if (x == null) {
+            return 0;
+        }
+        return getNodeHeight(x.left) + size(x.left) + getNodeHeight(x.right) + size(x.right);
+    }
+
+    // 随机命中查找的平均比较次数
+    public float avgCompares(Node x) {
+        if (x == null) {
+            return 0;
+        }
+        return length(x) / ((float) size(x)) + 1;
     }
 
     public static void main(String[] args) {
