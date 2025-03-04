@@ -340,7 +340,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     // 接受一个整型参数N并计算一棵最优(完美平衡的)二叉查找树中的一次随机查找命中平均所需的比较次数
     // 如果树中的链接数量为2的幂,那么所有的空链接都应该在同一层,否则则分布在最底部的两层中
-    public static float optCompares(int N) {
+    public static double optCompares(int N) {
         int deep = 0;
         int sum = 0;
         while (Math.pow(2, deep + 1) - 1 <= N) {
@@ -350,10 +350,11 @@ public class BST<Key extends Comparable<Key>, Value> {
         // 完全二叉树的深度是deep-1
         int others = N - (int) (Math.pow(2, deep) - 1);
         sum += others * deep;
-        return sum / ((float) N) + 1;
+        return sum / ((double) N) + 1;
     }
 
     public static void main(String[] args) {
-        StdOut.println(optCompares(11));
+        StdOut.println(optCompares(10000000));
+        StdOut.println(1.39 * Math.log(10000000) / Math.log(2));
     }
 }
