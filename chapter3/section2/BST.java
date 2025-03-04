@@ -298,6 +298,13 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    public int getNodeHeight(Node x) {
+        if (x == null) {
+            return 0;
+        }
+        return Math.max(getNodeHeight(x.left), getNodeHeight(x.right)) + 1;
+    }
+
     public static void main(String[] args) {
 
     }
