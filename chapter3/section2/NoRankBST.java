@@ -7,23 +7,17 @@ package chapter3.section2;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdOut;
 
-public class BST<Key extends Comparable<Key>, Value> {
+public class NoRankBST<Key extends Comparable<Key>, Value> {
     private Node root;
 
     private class Node {
         private Key key;
         private Value val;
         private Node left, right;
-        private int N; // 树节点数量
-        private int H; // 树高度
-        private int L; // 树内部路径长度
 
         public Node(Key key, Value val, int N, int H, int L) {
             this.key = key;
             this.val = val;
-            this.N = N;
-            this.H = H;
-            this.L = L;
         }
     }
 
@@ -36,7 +30,7 @@ public class BST<Key extends Comparable<Key>, Value> {
             return 0;
         }
         else {
-            return x.N;
+            return size(x.left) + size(x.right) + 1;
         }
     }
 
@@ -48,9 +42,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return 0;
         }
-        else {
-            return x.H;
-        }
+        return Math.max(height(x.left), height(x.right)) + 1;
     }
 
     public int length() {
@@ -61,7 +53,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return 0;
         }
-        return x.L;
+        return length(x.left) + size(x.left) + length(x.right) + size(x.right);
     }
 
     public Value get(Key key) {
@@ -100,9 +92,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         else {
             x.val = val;
         }
-        x.N = size(x.left) + size(x.right) + 1;
-        x.H = Math.max(height(x.left), height(x.right)) + 1;
-        x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
         return x;
     }
 
@@ -206,14 +195,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    public Key select(int k) {
-        Node target = select(root, k);
-        if (target != null) {
-            return target.key;
-        }
-        return null;
-    }
-
     public Node select(Node x, int k) {
         if (x == null) {
             return null;
@@ -230,26 +211,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    public int rank(Key key) {
-        return rank(key, root);
-    }
-
-    public int rank(Key key, Node x) {
-        if (x == null) {
-            return 0;
-        }
-        int cmp = key.compareTo(x.key);
-        if (cmp == 0) {
-            return size(x.left);
-        }
-        else if (cmp < 0) {
-            return rank(key, x.left);
-        }
-        else {
-            return size(x.left) + 1 + rank(key, x.right);
-        }
-    }
-
     public void deleteMin() {
         root = deleteMin(root);
     }
@@ -263,9 +224,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
         else {
             x.left = deleteMin(x.left);
-            x.N = size(x.left) + size(x.right) + 1;
-            x.H = Math.max(height(x.left), height(x.right)) + 1;
-            x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
             return x;
         }
     }
@@ -283,9 +241,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
         else {
             x.right = deleteMax(x.right);
-            x.N = size(x.left) + size(x.right) + 1;
-            x.H = Math.max(height(x.left), height(x.right)) + 1;
-            x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
             return x;
         }
     }
@@ -302,8 +257,16 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return false;
         }
-        int index = rank(key, x);
-        return key.equals(select(index));
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) {
+            return contains(key, x.left);
+        }
+        else if (cmp > 0) {
+            return contains(key, x.right);
+        }
+        else {
+            return true;
+        }
     }
 
     public Node delete(Key key, Node x) {
@@ -329,9 +292,6 @@ public class BST<Key extends Comparable<Key>, Value> {
             x.right = deleteMin(t.right);
             x.left = t.left;
         }
-        x.N = size(x.left) + size(x.right) + 1;
-        x.H = Math.max(height(x.left), height(x.right)) + 1;
-        x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
         return x;
     }
 
@@ -369,22 +329,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (cmphi > 0) {
             keys(x.right, queue, lo, hi);
         }
-    }
-
-    // 节点高度
-    public int getNodeHeight(Node x) {
-        if (x == null) {
-            return 0;
-        }
-        return Math.max(getNodeHeight(x.left), getNodeHeight(x.right)) + 1;
-    }
-
-    // 内部路径长度
-    public int getNodeLength(Node x) {
-        if (x == null) {
-            return 0;
-        }
-        return getNodeLength(x.left) + size(x.left) + getNodeLength(x.right) + size(x.right);
     }
 
     // 随机命中查找的平均比较次数
