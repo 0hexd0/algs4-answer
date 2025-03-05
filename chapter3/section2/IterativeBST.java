@@ -79,11 +79,11 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
                 t = t.right; // 大于当前节点，继续遍历右子节点
             }
         }
+        Node newNode = new Node(key, val, 1, 0);
         // 传入node为null
         if (p == null) {
-            return new Node(key, val, 1, 0);
+            return newNode;
         }
-        Node newNode = new Node(key, val, 1, 0);
         // 新增场景，基于最后一次比较结果插在父节点左或右
         if (cmp < 0) {
             p.left = newNode;
