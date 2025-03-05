@@ -107,10 +107,19 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Key min() {
-        return min(root).key;
+        Node taget = min(root);
+        if (taget != null) {
+            return taget.key;
+        }
+        else {
+            return null;
+        }
     }
 
     public Node min(Node x) {
+        if (x == null) {
+            return null;
+        }
         if (x.left == null) {
             return x;
         }
@@ -120,10 +129,19 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Key max() {
-        return max(root).key;
+        Node target = max(root);
+        if (target != null) {
+            return target.key;
+        }
+        else {
+            return null;
+        }
     }
 
     public Node max(Node x) {
+        if (x == null) {
+            return null;
+        }
         if (x.right == null) {
             return x;
         }
@@ -237,6 +255,9 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Node deleteMin(Node x) {
+        if (x == null) {
+            return null;
+        }
         if (x.left == null) {
             return x.right;
         }
@@ -254,6 +275,9 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Node deleteMax(Node x) {
+        if (x == null) {
+            return null;
+        }
         if (x.right == null) {
             return x.left;
         }
@@ -331,7 +355,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
-        if (x == null) {
+        if (x == null || lo == null || hi == null) {
             return;
         }
         int cmplo = lo.compareTo(x.key);
