@@ -125,12 +125,10 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return null;
         }
-        if (x.left == null) {
-            return x;
+        while (x.left != null) {
+            x = x.left;
         }
-        else {
-            return min(x.left);
-        }
+        return x;
     }
 
     public Key max() {
@@ -147,12 +145,10 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return null;
         }
-        if (x.right == null) {
-            return x;
+        while (x.right != null) {
+            x = x.right;
         }
-        else {
-            return max(x.right);
-        }
+        return x;
     }
 
     public Key floor(Key key) {
@@ -164,23 +160,27 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
     }
 
     public Node floor(Node x, Key key) {
-        if (x == null) {
-            return null;
+        Node p = null;
+        int cmp = 0;
+        while (x != null) {
+            cmp = key.compareTo(x.key);
+            if (cmp == 0) {
+                return x;
+            }
+            if (cmp < 0) {
+                x = x.left;
+            }
+            else {
+                if (x.right == null || key.compareTo(x.right.key) < 0) {
+                    return x;
+                }
+                else {
+                    x = x.right;
+                }
+            }
+            p = x;
         }
-        int cmp = key.compareTo(x.key);
-        if (cmp == 0) {
-            return x;
-        }
-        if (cmp < 0) {
-            return floor(x.left, key);
-        }
-        Node t = floor(x.right, key);
-        if (t != null) {
-            return t;
-        }
-        else {
-            return x;
-        }
+        return p;
     }
 
     public Key ceiling(Key key) {
