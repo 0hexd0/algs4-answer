@@ -189,7 +189,11 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Key select(int k) {
-        return select(root, k).key;
+        Node target = select(root, k);
+        if (target != null) {
+            return target.key;
+        }
+        return null;
     }
 
     public Node select(Node x, int k) {
@@ -245,8 +249,37 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    public void deleteMax() {
+        root = deleteMax(root);
+    }
+
+    public Node deleteMax(Node x) {
+        if (x.right == null) {
+            return x.left;
+        }
+        else {
+            x.right = deleteMax(x.right);
+            x.N = size(x.left) + size(x.right) + 1;
+            x.H = Math.max(height(x.left), height(x.right)) + 1;
+            x.L = length(x.left) + size(x.left) + length(x.right) + size(x.right);
+            return x;
+        }
+    }
+
     public void delete(Key key) {
         root = delete(key, root);
+    }
+
+    public boolean contains(Key key) {
+        return contains(key, root);
+    }
+
+    public boolean contains(Key key, Node x) {
+        if (x == null) {
+            return false;
+        }
+        int index = rank(key, x);
+        return key.equals(select(index));
     }
 
     public Node delete(Key key, Node x) {
