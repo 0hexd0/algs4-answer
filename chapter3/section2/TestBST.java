@@ -108,6 +108,10 @@ public class TestBST {
                 st.deleteMax();
                 break;
             }
+            case "randomKey": {
+                StdOut.println("randomKey(): " + st.randomKey());
+                break;
+            }
         }
     }
 }

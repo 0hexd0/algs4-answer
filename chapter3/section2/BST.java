@@ -6,6 +6,7 @@ package chapter3.section2;
 
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class BST<Key extends Comparable<Key>, Value> {
     private Node root;
@@ -38,6 +39,25 @@ public class BST<Key extends Comparable<Key>, Value> {
         else {
             return x.N;
         }
+    }
+
+    public int size(Key lo, Key hi) {
+        return size(root, lo, hi);
+    }
+
+    public int size(Node x, Key lo, Key hi) {
+        if (x == null) {
+            return 0;
+        }
+        int cmplo = x.key.compareTo(lo);
+        int comhi = x.key.compareTo(hi);
+        if (cmplo < 0) {
+            return size(x.right, lo, hi);
+        }
+        if (comhi > 0) {
+            return size(x.left, lo, hi);
+        }
+        return size(x.left, lo, hi) + 1 + size(x.right, lo, hi);
     }
 
     public int height() {
@@ -408,6 +428,18 @@ public class BST<Key extends Comparable<Key>, Value> {
         int others = N - (int) (Math.pow(2, deep) - 1);
         sum += others * deep;
         return sum / ((double) N) + 1;
+    }
+
+    public Key randomKey() {
+        return randomKey(root);
+    }
+
+    public Key randomKey(Node x) {
+        Node target = select(x, StdRandom.uniformInt(0, size(x)));
+        if (target != null) {
+            return target.key;
+        }
+        return null;
     }
 
     public static void main(String[] args) {
