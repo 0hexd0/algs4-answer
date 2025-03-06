@@ -160,7 +160,6 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
     }
 
     public Node floor(Node x, Key key) {
-        Node p = null;
         while (x != null) {
             int cmp = key.compareTo(x.key);
             if (cmp == 0) {
@@ -177,9 +176,8 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
                     x = x.right;
                 }
             }
-            p = x;
         }
-        return p;
+        return x;
     }
 
     public Key ceiling(Key key) {
@@ -191,7 +189,6 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
     }
 
     public Node ceiling(Node x, Key key) {
-        Node p = null;
         while (x != null) {
             int cmp = key.compareTo(x.key);
             if (cmp == 0) {
@@ -208,9 +205,8 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
                     x = x.left;
                 }
             }
-            p = x;
         }
-        return p;
+        return x;
     }
 
     public Key select(int k) {
@@ -222,19 +218,23 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
     }
 
     public Node select(Node x, int k) {
-        if (x == null) {
-            return null;
+        while (k > 0) {
+            if (x == null) {
+                break;
+            }
+            int leftSize = size(x.left);
+            if (leftSize > k) {
+                x = x.left;
+            }
+            else if (leftSize == k) {
+                return x;
+            }
+            else {
+                x = x.right;
+                k = k - leftSize - 1;
+            }
         }
-        int leftSize = size(x.left);
-        if (leftSize == k) {
-            return x;
-        }
-        else if (leftSize > k) {
-            return select(x.left, k);
-        }
-        else {
-            return select(x.right, k - leftSize - 1);
-        }
+        return x;
     }
 
     public int rank(Key key) {
@@ -245,16 +245,21 @@ public class IterativeBST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return 0;
         }
-        int cmp = key.compareTo(x.key);
-        if (cmp == 0) {
-            return size(x.left);
+        int counter = 0;
+        while (x != null) {
+            int cmp = key.compareTo(x.key);
+            if (cmp == 0) {
+                break;
+            }
+            else if (cmp < 0) {
+                x = x.left;
+            }
+            else {
+                x = x.right;
+                counter++;
+            }
         }
-        else if (cmp < 0) {
-            return rank(key, x.left);
-        }
-        else {
-            return size(x.left) + 1 + rank(key, x.right);
-        }
+        return counter;
     }
 
     public void deleteMin() {
