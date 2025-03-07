@@ -5,6 +5,7 @@
 package chapter3.section2;
 
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
@@ -442,8 +443,49 @@ public class BST<Key extends Comparable<Key>, Value> {
         return null;
     }
 
+    public void draw() {
+        StdDraw.setTitle("BST");
+        int height = height(root);
+        int rows = (height + 2) * 2 + 1;
+        double rowHeight = 1.0 / rows;
+        drawNode(root, rowHeight, 1 - rowHeight, rowHeight, rowHeight);
+        StdOut.println(keys());
+    }
+
+    public void drawNode(Node n, double loX, double hiX, double loY, double rowHeight) {
+        double midX = loX + (hiX - loX) / 2;
+        double midY = 1 - (loY + rowHeight / 2);
+        StdDraw.setPenRadius(0.005);
+        // 绘制左侧连接线
+        double leftCMidX = loX + (midX - loX) / 2;
+        double leftCMidY = 1 - (loY + 2 * rowHeight + rowHeight / 2);
+        StdDraw.line(midX, midY, leftCMidX, leftCMidY);
+        // 绘制右侧连接线
+        double rightCMidX = midX + (hiX - midX) / 2;
+        double rightCMidY = 1 - (loY + 2 * rowHeight + rowHeight / 2);
+        StdDraw.line(midX, midY, rightCMidX, rightCMidY);
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.filledCircle(midX, midY, rowHeight / 2); // 填充圆
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(0.002);
+        StdDraw.circle(midX, midY, rowHeight / 2); // 绘制圆
+        StdDraw.text(midX, midY, n.key.toString()); // 绘制文字
+        if (n.left != null) {
+            drawNode(n.left, loX, midX, loY + 2 * rowHeight, rowHeight);
+        }
+        if (n.right != null) {
+            drawNode(n.right, midX, hiX, loY + 2 * rowHeight, rowHeight);
+        }
+    }
+
     public static void main(String[] args) {
-        StdOut.println(optCompares(10000000));
-        StdOut.println(1.39 * Math.log(10000000) / Math.log(2));
+        // StdOut.println(optCompares(10000000));
+        // StdOut.println(1.39 * Math.log(10000000) / Math.log(2));
+        BST<String, Integer> st = new BST<>();
+        String[] words = { "a1", "a2", "a1", "b1", "b2", "b3", "a2", "c1", "c4", "a1", };
+        for (String word : words) {
+            st.put(word, 1);
+        }
+        st.draw();
     }
 }
