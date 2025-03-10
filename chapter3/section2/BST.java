@@ -5,6 +5,7 @@
 package chapter3.section2;
 
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
@@ -408,15 +409,25 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    // private void iterativeKeys(Node x, Queue<Key> queue, Key lo, Key hi) {
-    //     if (x == null || lo == null || hi == null) {
-    //         return;
-    //     }
-    //     while (x != null) {
-    //
-    //     }
-    //
-    // }
+    private ArrayList<Key> iterativeKeys() {
+        ArrayList<Key> keys = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (stack.size() > 0) {
+            Node peek = stack.peek();
+            if (peek.left != null && !keys.contains(peek.left.key)) {
+                stack.push(peek.left);
+            }
+            else {
+                Node poped = stack.pop();
+                keys.add(poped.key);
+                if (poped.right != null) {
+                    stack.push(poped.right);
+                }
+            }
+        }
+        return keys;
+    }
 
     public void printLevel() {
         Queue<Node> queue = new Queue<>();
@@ -626,6 +637,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         // StdOut.println(1.39 * Math.log(10000000) / Math.log(2));
         BST<String, Integer> st = new BST<>();
         String[] words = { "c1", "c4", "a1", "a1", "a2", "b2", "a1", "b1", "b2", "b3", "a2", "c1" };
+
         for (String word : words) {
             st.put(word, 1);
         }
@@ -636,6 +648,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         StdOut.println("checkRankAndSelect: " + st.checkRankAndSelect());
         StdOut.println("printLevel: ");
         st.printLevel();
+        StdOut.println("iterativeKeys: " + st.iterativeKeys());
         st.draw();
     }
 }
