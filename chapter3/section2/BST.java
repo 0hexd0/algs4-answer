@@ -490,6 +490,10 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    public boolean isBinaryTree() {
+        return isBinaryTree(root);
+    }
+
     public boolean isBinaryTree(Node x) {
         if (x == null) {
             return true;
@@ -500,6 +504,28 @@ public class BST<Key extends Comparable<Key>, Value> {
         return false;
     }
 
+    public boolean isOrdered(Key min, Key max) {
+        return isOrdered(root, min, max);
+    }
+
+    public boolean isOrdered(Node x, Key min, Key max) {
+        if (x == null) {
+            return true;
+        }
+        int minCmp = x.key.compareTo(min);
+        int maxCmp = x.key.compareTo(max);
+        if (minCmp < 0 || maxCmp > 0) {
+            return false;
+        }
+        if (x.left != null && x.left.key.compareTo(x.key) >= 0) {
+            return false;
+        }
+        if (x.right != null && x.right.key.compareTo(x.key) <= 0) {
+            return false;
+        }
+        return isOrdered(x.left, min, max) && isOrdered(x.right, min, max);
+    }
+
     public static void main(String[] args) {
         // StdOut.println(optCompares(10000000));
         // StdOut.println(1.39 * Math.log(10000000) / Math.log(2));
@@ -508,7 +534,8 @@ public class BST<Key extends Comparable<Key>, Value> {
         for (String word : words) {
             st.put(word, 1);
         }
-        StdOut.println("isBinaryTree: " + st.isBinaryTree(st.root));
+        StdOut.println("isBinaryTree: " + st.isBinaryTree());
+        StdOut.println("isOrdered: " + st.isOrdered("a1", "c4"));
         st.draw();
     }
 }
