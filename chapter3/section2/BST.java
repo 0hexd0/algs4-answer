@@ -490,6 +490,16 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    public boolean isBinaryTree(Node x) {
+        if (x == null) {
+            return true;
+        }
+        if (size(x) == size(x.left) + size(x.right) + 1) {
+            return isBinaryTree(x.left) && isBinaryTree(x.right);
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         // StdOut.println(optCompares(10000000));
         // StdOut.println(1.39 * Math.log(10000000) / Math.log(2));
@@ -498,6 +508,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         for (String word : words) {
             st.put(word, 1);
         }
+        StdOut.println("isBinaryTree: " + st.isBinaryTree(st.root));
         st.draw();
     }
 }
