@@ -9,6 +9,10 @@ import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class BST<Key extends Comparable<Key>, Value> {
     private Node root;
     private Node cacheNode; // 缓存节点
@@ -404,6 +408,40 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    // private void iterativeKeys(Node x, Queue<Key> queue, Key lo, Key hi) {
+    //     if (x == null || lo == null || hi == null) {
+    //         return;
+    //     }
+    //     while (x != null) {
+    //
+    //     }
+    //
+    // }
+
+    public void printLevel() {
+        Queue<Node> queue = new Queue<>();
+        queue.enqueue(root);
+        while (queue.size() > 0) {
+            Node x = queue.dequeue();
+            StdOut.println(x.key);
+            if (x.left != null) {
+                queue.enqueue(x.left);
+            }
+            if (x.right != null) {
+                queue.enqueue(x.right);
+            }
+        }
+    }
+
+    public void printLevel(Node x, Queue<Key> queue) {
+        if (x == null) {
+            return;
+        }
+        queue.enqueue(x.key);
+        printLevel(x.left, queue);
+        printLevel(x.right, queue);
+    }
+
     // 节点高度
     public int getNodeHeight(Node x) {
         if (x == null) {
@@ -504,8 +542,8 @@ public class BST<Key extends Comparable<Key>, Value> {
         return false;
     }
 
-    public boolean isOrdered(Key min, Key max) {
-        return isOrdered(root, min, max);
+    public boolean isOrdered() {
+        return isOrdered(root, min(), max());
     }
 
     public boolean isOrdered(Node x, Key min, Key max) {
@@ -526,16 +564,78 @@ public class BST<Key extends Comparable<Key>, Value> {
         return isOrdered(x.left, min, max) && isOrdered(x.right, min, max);
     }
 
+    public boolean hasNoDuplicates() {
+        return hasNoDuplicates(root);
+    }
+
+    public boolean hasNoDuplicates(Node x) {
+        if (x == null) {
+            return true;
+        }
+        ArrayList<Key> list = new ArrayList<>();
+        return hasNoDuplicates(x, list);
+    }
+
+    public boolean hasNoDuplicates(Node x, List<Key> list) {
+        if (x == null) {
+            return true;
+        }
+        if (list.contains(x.key)) {
+            return false;
+        }
+        list.add(x.key);
+        return hasNoDuplicates(x.left) && hasNoDuplicates(x.right);
+    }
+
+    public boolean isBST() {
+        return isBST(root);
+    }
+
+    public boolean isBST(Node x) {
+        if (!isBinaryTree(root)) {
+            return false;
+        }
+        if (!isOrdered(root, min(), max())) {
+            return false;
+        }
+        if (!hasNoDuplicates(root)) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkRankAndSelect() {
+        if (root == null) {
+            return true;
+        }
+        for (int i = 0; i < size(root); i++) {
+            if (i != rank(select(i))) {
+                return false;
+            }
+        }
+        for (Key key : keys()) {
+            if (!Objects.equals(key, select(rank(key)))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         // StdOut.println(optCompares(10000000));
         // StdOut.println(1.39 * Math.log(10000000) / Math.log(2));
         BST<String, Integer> st = new BST<>();
-        String[] words = { "a1", "a2", "a1", "b1", "b2", "b3", "a2", "c1", "c4", "a1", };
+        String[] words = { "c1", "c4", "a1", "a1", "a2", "b2", "a1", "b1", "b2", "b3", "a2", "c1" };
         for (String word : words) {
             st.put(word, 1);
         }
         StdOut.println("isBinaryTree: " + st.isBinaryTree());
-        StdOut.println("isOrdered: " + st.isOrdered("a1", "c4"));
+        StdOut.println("isOrdered: " + st.isOrdered());
+        StdOut.println("hasNoDuplicates: " + st.hasNoDuplicates());
+        StdOut.println("isBST: " + st.isBST());
+        StdOut.println("checkRankAndSelect: " + st.checkRankAndSelect());
+        StdOut.println("printLevel: ");
+        st.printLevel();
         st.draw();
     }
 }
