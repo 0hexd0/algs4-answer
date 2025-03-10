@@ -11,6 +11,7 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class BST<Key extends Comparable<Key>, Value> {
     private Node root;
+    private Node cacheNode; // 缓存节点
 
     private class Node {
         private Key key;
@@ -93,6 +94,10 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return null;
         }
+        // 命中缓存
+        if (cacheNode != null && key.compareTo(cacheNode.key) == 0) {
+            return cacheNode.val;
+        }
         int cmp = key.compareTo(x.key);
         if (cmp < 0) {
             return get(x.left, key);
@@ -100,6 +105,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         else if (cmp > 0) {
             return get(x.right, key);
         }
+        cacheNode = x;
         return x.val;
     }
 
@@ -111,6 +117,11 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (x == null) {
             return new Node(key, val, 1, 0, 0);
         }
+        // 命中缓存
+        if (cacheNode != null && key.compareTo(cacheNode.key) == 0) {
+            cacheNode.val = val;
+            return x;
+        }
         int cmp = key.compareTo(x.key);
         if (cmp < 0) {
             x.left = put(x.left, key, val);
@@ -120,6 +131,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
         else {
             x.val = val;
+            cacheNode = x;
         }
         x.N = size(x.left) + size(x.right) + 1;
         x.H = Math.max(height(x.left), height(x.right)) + 1;
